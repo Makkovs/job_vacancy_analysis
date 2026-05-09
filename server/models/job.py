@@ -15,4 +15,4 @@ class Job(Base):
     qualification: Mapped[str] = mapped_column(String(255), nullable=False)
     experience: Mapped[int] = mapped_column(Integer)
 
-    job_skills = relationship("JobSkills", back_populates="job")
+    job_skills = relationship("JobSkill", back_populates="job")

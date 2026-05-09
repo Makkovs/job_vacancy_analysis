@@ -9,5 +9,5 @@ class Skill(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(255))
 
-    resume_skills = relationship("ResumeSkills", back_populates="skill")
-    jobs_skills = relationship("JobsSkills", back_populates="skill")
+    resume_skills = relationship("ResumeSkill", back_populates="skills")
+    job_skills = relationship("JobSkill", back_populates="skills")

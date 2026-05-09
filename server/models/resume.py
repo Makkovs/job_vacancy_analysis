@@ -11,4 +11,4 @@ class Resume(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
 
     user = relationship("User", back_populates="resumes")
-    resume_skills = relationship("ResumeSkills", back_populates="resume")
+    resume_skills = relationship("ResumeSkill", back_populates="resume")
