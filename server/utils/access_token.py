@@ -1,4 +1,5 @@
 import jwt
+from fastapi import HTTPException, status
 from datetime import datetime, timedelta, timezone
 
 SECRET_KEY = "jobsmecret"
@@ -18,7 +19,7 @@ def verify_access_token(token: str) -> dict | None:
         return decoded
     
     except jwt.ExpiredSignatureError:
-        return None
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
     
     except jwt.InvalidTokenError:
-        return None
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")

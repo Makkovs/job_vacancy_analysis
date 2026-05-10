@@ -28,11 +28,15 @@ class UserService:
     
     def login_user(self, user_auth: UserAuthSchema) -> str:
         user = self.repository.get_user_by_email(user_auth.email)
+        
+        if user is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email or password")
+
         password_check = bcrypt.checkpw(
             user_auth.password.encode("utf-8"), user.password.encode("utf-8")
         )
 
-        if user is None or not password_check:
+        if not password_check:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email or password")
         
         token_data = {
@@ -48,20 +52,11 @@ class UserService:
         new_access_token = create_access_token(decoded)
         return new_access_token
             
-
-    def get_user(self, id: int | None, email: str | None) -> UserSchema:
-        user = None
-
-        if id:
-            user = self.repository.get_user_by_id(id)
-        elif email is not None:
-            user = self.repository.get_user_by_email(email)
-        else: 
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Some of args are missing")
-        
+    def get_user(self, id: int) -> UserSchema:
+        user = self.repository.get_user_by_id(id)        
         if user is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="This user was not found")
-        print(user)
+        
         return UserSchema.model_validate(user)
     
     def delete_user(self, id: int) -> str:
