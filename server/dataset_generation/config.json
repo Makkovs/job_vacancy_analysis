@@ -1,0 +1,562 @@
+{
+    "EXPERIENCE_WEIGHTS": [
+        0.15,
+        0.18,
+        0.16,
+        0.14,
+        0.12,
+        0.10,
+        0.07,
+        0.05,
+        0.03
+    ],
+    "DOMAINS_CONFIG": {
+        "Backend": {
+            "weight": 0.30,
+            "salary_base": 900,
+            "qualification_weights": [
+                0.40,
+                0.45,
+                0.13,
+                0.02
+            ]
+        },
+        "Frontend": {
+            "weight": 0.25,
+            "salary_base": 850,
+            "qualification_weights": [
+                0.55,
+                0.35,
+                0.09,
+                0.01
+            ]
+        },
+        "Fullstack": {
+            "weight": 0.15,
+            "salary_base": 1000,
+            "qualification_weights": [
+                0.35,
+                0.50,
+                0.13,
+                0.02
+            ]
+        },
+        "Data Science": {
+            "weight": 0.10,
+            "salary_base": 1100,
+            "qualification_weights": [
+                0.03,
+                0.22,
+                0.55,
+                0.20
+            ]
+        },
+        "Mobile Development": {
+            "weight": 0.08,
+            "salary_base": 950,
+            "qualification_weights": [
+                0.50,
+                0.40,
+                0.09,
+                0.01
+            ]
+        },
+        "DevOps": {
+            "weight": 0.06,
+            "salary_base": 1100,
+            "qualification_weights": [
+                0.30,
+                0.55,
+                0.13,
+                0.02
+            ]
+        },
+        "QA / Testing": {
+            "weight": 0.06,
+            "salary_base": 750,
+            "qualification_weights": [
+                0.60,
+                0.33,
+                0.06,
+                0.01
+            ]
+        }
+    },
+    "MAIN_SKILLS_CONFIG": {
+        "Backend": {
+            "Python_FastAPI": {
+                "skills": [
+                    "Python",
+                    "FastAPI",
+                    "Pydantic",
+                    "SQLAlchemy"
+                ],
+                "weight": 0.25,
+                "salary_bonus": 350
+            },
+            "Python_Django": {
+                "skills": [
+                    "Python",
+                    "Django",
+                    "Django REST Framework",
+                    "PostgreSQL"
+                ],
+                "weight": 0.20,
+                "salary_bonus": 250
+            },
+            "JS_Nest": {
+                "skills": [
+                    "JavaScript",
+                    "TypeScript",
+                    "Nest.js",
+                    "TypeORM",
+                    "PostgreSQL"
+                ],
+                "weight": 0.20,
+                "salary_bonus": 300
+            },
+            "JS_Express": {
+                "skills": [
+                    "JavaScript",
+                    "Express",
+                    "MongoDB",
+                    "Mongoose"
+                ],
+                "weight": 0.10,
+                "salary_bonus": 200
+            },
+            "Java_Spring": {
+                "skills": [
+                    "Java",
+                    "Spring Boot",
+                    "Hibernate",
+                    "MySQL"
+                ],
+                "weight": 0.15,
+                "salary_bonus": 400
+            },
+            "C#_NET": {
+                "skills": [
+                    "C#",
+                    ".NET Core",
+                    "Entity Framework",
+                    "MSSQL"
+                ],
+                "weight": 0.10,
+                "salary_bonus": 350
+            }
+        },
+        "Frontend": {
+            "React_Redux": {
+                "skills": [
+                    "JavaScript",
+                    "TypeScript",
+                    "React.js",
+                    "Redux Toolkit",
+                    "HTML/CSS"
+                ],
+                "weight": 0.55,
+                "salary_bonus": 200
+            },
+            "Vue_Vuex": {
+                "skills": [
+                    "JavaScript",
+                    "Vue.js",
+                    "Vuex",
+                    "HTML/CSS",
+                    "SCSS"
+                ],
+                "weight": 0.25,
+                "salary_bonus": 150
+            },
+            "Angular": {
+                "skills": [
+                    "TypeScript",
+                    "Angular",
+                    "RxJS",
+                    "HTML/CSS"
+                ],
+                "weight": 0.20,
+                "salary_bonus": 250
+            }
+        },
+        "Fullstack": {
+            "MERN": {
+                "skills": [
+                    "JavaScript",
+                    "MongoDB",
+                    "Express",
+                    "React.js",
+                    "Node.js"
+                ],
+                "weight": 0.45,
+                "salary_bonus": 350
+            },
+            "Python_React": {
+                "skills": [
+                    "Python",
+                    "FastAPI",
+                    "JavaScript",
+                    "React.js",
+                    "PostgreSQL"
+                ],
+                "weight": 0.35,
+                "salary_bonus": 400
+            },
+            "TILT_Laravel": {
+                "skills": [
+                    "PHP",
+                    "Laravel",
+                    "JavaScript",
+                    "Vue.js",
+                    "MySQL"
+                ],
+                "weight": 0.20,
+                "salary_bonus": 200
+            }
+        },
+        "Data Science": {
+            "ML_Engineering": {
+                "skills": [
+                    "Python",
+                    "Scikit-Learn",
+                    "Pandas",
+                    "NumPy",
+                    "Git"
+                ],
+                "weight": 0.40,
+                "salary_bonus": 500
+            },
+            "Deep_Learning": {
+                "skills": [
+                    "Python",
+                    "PyTorch",
+                    "TensorFlow",
+                    "CUDA",
+                    "OpenCV"
+                ],
+                "weight": 0.35,
+                "salary_bonus": 600
+            },
+            "Data_Analytics": {
+                "skills": [
+                    "Python",
+                    "SQL",
+                    "Tableau",
+                    "PowerBI",
+                    "Pandas"
+                ],
+                "weight": 0.25,
+                "salary_bonus": 300
+            }
+        },
+        "Mobile Development": {
+            "iOS_Native": {
+                "skills": [
+                    "Swift",
+                    "SwiftUI",
+                    "UIKit",
+                    "CoreData"
+                ],
+                "weight": 0.30,
+                "salary_bonus": 400
+            },
+            "Android_Native": {
+                "skills": [
+                    "Kotlin",
+                    "Android SDK",
+                    "Coroutines",
+                    "Jetpack Compose"
+                ],
+                "weight": 0.30,
+                "salary_bonus": 400
+            },
+            "Flutter_Cross": {
+                "skills": [
+                    "Dart",
+                    "Flutter",
+                    "BLoC",
+                    "Firebase"
+                ],
+                "weight": 0.25,
+                "salary_bonus": 300
+            },
+            "React_Native": {
+                "skills": [
+                    "JavaScript",
+                    "TypeScript",
+                    "React Native",
+                    "Redux"
+                ],
+                "weight": 0.15,
+                "salary_bonus": 250
+            }
+        },
+        "DevOps": {
+            "AWS_Cloud": {
+                "skills": [
+                    "AWS",
+                    "Terraform",
+                    "Docker",
+                    "Linux",
+                    "Bash"
+                ],
+                "weight": 0.50,
+                "salary_bonus": 500
+            },
+            "K8s_Linux": {
+                "skills": [
+                    "Kubernetes",
+                    "Docker",
+                    "Ansible",
+                    "Linux",
+                    "CI/CD"
+                ],
+                "weight": 0.50,
+                "salary_bonus": 550
+            }
+        },
+        "QA / Testing": {
+            "Manual_Testing": {
+                "skills": [
+                    "QA Methodology",
+                    "Test Cases",
+                    "Jira",
+                    "Postman"
+                ],
+                "weight": 0.40,
+                "salary_bonus": 50
+            },
+            "Automation_Python": {
+                "skills": [
+                    "Python",
+                    "Selenium",
+                    "PyTest",
+                    "Page Object Pattern"
+                ],
+                "weight": 0.35,
+                "salary_bonus": 350
+            },
+            "Automation_JS": {
+                "skills": [
+                    "JavaScript",
+                    "Cypress",
+                    "Playwright",
+                    "Mocha"
+                ],
+                "weight": 0.25,
+                "salary_bonus": 300
+            }
+        }
+    },
+    "UTIL_SKILLS": {
+        "Git": 0.90,
+        "Docker": 0.65,
+        "Kubernetes": 0.25,
+        "Redis": 0.35,
+        "AWS": 0.30,
+        "Google Cloud": 0.15,
+        "CI/CD (GitHub Actions/Jenkins)": 0.40,
+        "Linux / Bash": 0.50,
+        "Jira / Confluence": 0.70,
+        "Scrum / Agile": 0.60
+    },
+    "COUNTRIES_CONFIG": {
+        "Switzerland": {
+            "salary_coef": 2.4,
+            "weight": 0.03
+        },
+        "Luxembourg": {
+            "salary_coef": 2.2,
+            "weight": 0.01
+        },
+        "Monaco": {
+            "salary_coef": 2.2,
+            "weight": 0.001
+        },
+        "Liechtenstein": {
+            "salary_coef": 2.2,
+            "weight": 0.001
+        },
+        "Norway": {
+            "salary_coef": 1.8,
+            "weight": 0.03
+        },
+        "Ireland": {
+            "salary_coef": 1.8,
+            "weight": 0.04
+        },
+        "Denmark": {
+            "salary_coef": 1.75,
+            "weight": 0.03
+        },
+        "Netherlands": {
+            "salary_coef": 1.7,
+            "weight": 0.06
+        },
+        "Germany": {
+            "salary_coef": 1.6,
+            "weight": 0.12
+        },
+        "United Kingdom": {
+            "salary_coef": 1.6,
+            "weight": 0.12
+        },
+        "Sweden": {
+            "salary_coef": 1.45,
+            "weight": 0.04
+        },
+        "France": {
+            "salary_coef": 1.4,
+            "weight": 0.08
+        },
+        "Austria": {
+            "salary_coef": 1.4,
+            "weight": 0.04
+        },
+        "Belgium": {
+            "salary_coef": 1.35,
+            "weight": 0.03
+        },
+        "Finland": {
+            "salary_coef": 1.35,
+            "weight": 0.02
+        },
+        "Andorra": {
+            "salary_coef": 1.25,
+            "weight": 0.001
+        },
+        "Iceland": {
+            "salary_coef": 1.5,
+            "weight": 0.005
+        },
+        "San Marino": {
+            "salary_coef": 1.15,
+            "weight": 0.001
+        },
+        "Czech Republic": {
+            "salary_coef": 1.1,
+            "weight": 0.04
+        },
+        "Italy": {
+            "salary_coef": 1.05,
+            "weight": 0.05
+        },
+        "Spain": {
+            "salary_coef": 1.05,
+            "weight": 0.06
+        },
+        "Slovakia": {
+            "salary_coef": 1.0,
+            "weight": 0.02
+        },
+        "Poland": {
+            "salary_coef": 1.0,
+            "weight": 0.09
+        },
+        "Slovenia": {
+            "salary_coef": 0.95,
+            "weight": 0.01
+        },
+        "Estonia": {
+            "salary_coef": 0.95,
+            "weight": 0.02
+        },
+        "Serbia": {
+            "salary_coef": 0.95,
+            "weight": 0.025
+        },
+        "Malta": {
+            "salary_coef": 0.95,
+            "weight": 0.005
+        },
+        "Cyprus": {
+            "salary_coef": 0.95,
+            "weight": 0.015
+        },
+        "Vatican City": {
+            "salary_coef": 0.9,
+            "weight": 0.0001
+        },
+        "Portugal": {
+            "salary_coef": 0.9,
+            "weight": 0.03
+        },
+        "Croatia": {
+            "salary_coef": 0.85,
+            "weight": 0.015
+        },
+        "Lithuania": {
+            "salary_coef": 0.85,
+            "weight": 0.015
+        },
+        "Ukraine": {
+            "salary_coef": 0.85,
+            "weight": 0.05
+        },
+        "Romania": {
+            "salary_coef": 0.85,
+            "weight": 0.04
+        },
+        "Hungary": {
+            "salary_coef": 0.8,
+            "weight": 0.02
+        },
+        "Latvia": {
+            "salary_coef": 0.8,
+            "weight": 0.01
+        },
+        "Bulgaria": {
+            "salary_coef": 0.75,
+            "weight": 0.02
+        },
+        "Greece": {
+            "salary_coef": 0.75,
+            "weight": 0.015
+        },
+        "Russian Federation": {
+            "salary_coef": 0.65,
+            "weight": 0.01
+        },
+        "Montenegro": {
+            "salary_coef": 0.65,
+            "weight": 0.005
+        },
+        "Georgia": {
+            "salary_coef": 0.65,
+            "weight": 0.01
+        },
+        "Armenia": {
+            "salary_coef": 0.65,
+            "weight": 0.005
+        },
+        "Turkey": {
+            "salary_coef": 0.6,
+            "weight": 0.02
+        },
+        "Bosnia and Herzegovina": {
+            "salary_coef": 0.55,
+            "weight": 0.005
+        },
+        "Azerbaijan": {
+            "salary_coef": 0.55,
+            "weight": 0.005
+        },
+        "Kazakhstan": {
+            "salary_coef": 0.55,
+            "weight": 0.01
+        },
+        "Moldova": {
+            "salary_coef": 0.5,
+            "weight": 0.005
+        },
+        "Albania": {
+            "salary_coef": 0.5,
+            "weight": 0.005
+        },
+        "North Macedonia": {
+            "salary_coef": 0.5,
+            "weight": 0.005
+        }
+    }
+}

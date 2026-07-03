@@ -2,12 +2,11 @@ from fastapi import APIRouter, status, Header, HTTPException
 
 from schemas import UserAuthSchema, UserSchema
 from services import UserServiceDependency
-from models import User
 
 user_router = APIRouter(prefix="/user", tags=["user"])
 
 @user_router.get("/{id}", response_model=UserSchema)
-def get_user(id: int, service: UserServiceDependency = UserServiceDependency) -> UserSchema:
+def get_user(id: int, service: UserServiceDependency) -> UserSchema:
     return service.get_user(id)
 
 @user_router.post("/auth/register", response_model=str, status_code=status.HTTP_201_CREATED)
