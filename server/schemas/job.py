@@ -10,11 +10,11 @@ class JobFilters(BaseModel):
     qualification: str | None = None
     experience: int | None = None
 
-class Job (BaseModel):
+class JobSchema (BaseModel):
     title: str
-    description: str
     salary_min: int
     salary_max: int
     country: str
     qualification: str
-    experience: str
+    experience: int
+    skills: list[SkillSchema]

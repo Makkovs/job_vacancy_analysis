@@ -1,4 +1,5 @@
 import os
+import math
 import json
 import random
 
@@ -39,16 +40,22 @@ def generate_job ():
             utils_bonus += random.choice([0, 100])
             skills.append(skill)
 
-    base = salary_base * country_salary_coef * (1 + 0.25 * experience) * (1 + 0.1 * qualification)
-    salary = int(base + random.uniform(0.5, 1.8) * salary_bonus + utils_bonus)
+    experience_coef = 1 + 0.5 * math.log1p(experience)
+    market_noise = random.uniform(0.8, 1.2)
+
+    base = salary_base * country_salary_coef * (1 + 0.25 * experience_coef) * (1 + 0.1 * qualification)
+    salary = int((base + random.uniform(0.5, 1.8) * salary_bonus + utils_bonus) * market_noise)
+
+    skills_obj = [{"name" : skill} for skill in skills]
     
     job = {
         "title" : f"{["Junior", "Middle", "Senior"][round(experience/4)]} {domain} {main_skill} developer",
-        "salary_min" : int(salary*0.8),
-        "salary_max" : int(salary*1.2),
+        "salary_min" : int(salary*0.9),
+        "salary_max" : int(salary*1.1),
         "experience" : experience,
+        "qualification" : qualification,
         "country" : country,
-        "skills" : skills
+        "skills" : skills_obj
     }
     
     return job

@@ -8,7 +8,6 @@ class Job(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     title: Mapped[str] = mapped_column(String(255))
-    description: Mapped[str] = mapped_column(Text)
     salary_min: Mapped[int] = mapped_column(Integer, nullable=False)
     salary_max: Mapped[int] = mapped_column(Integer, nullable=False)
     country: Mapped[str] = mapped_column(String(255), nullable=False)
