@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from schemas.skill import SkillSchema
 
 class JobFilters(BaseModel):
-    skills: list[SkillSchema] | None = None
+    skill_ids: list[int] | None = None
     salary_min: int | None = None
     salary_max: int | None = None
     country: str | None = None

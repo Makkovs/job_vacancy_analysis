@@ -8,13 +8,7 @@ from db import SessionLocal
 from schemas import JobSchema
 from models import Job, Skill, JobSkill
 from dataset_generation.main import generate_job
-
-QUALIFICATION_MAP = {
-    0: "None",
-    1: "Bachelor's Degree",
-    2: "Master's Degree",
-    3: "Doctorate / PhD+"
-}
+from utils.qualification_map import QUALIFICATION_MAP
 
 def seed_jobs(count: int = 1000):
     db = SessionLocal()

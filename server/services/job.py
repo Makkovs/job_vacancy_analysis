@@ -1,14 +1,16 @@
 from fastapi import Depends
-from typing import Annotated
+from typing import Annotated, List
 
-from schemas import JobFilters
+from repositories import JobRepositoryDependency
+from schemas import JobFilters, JobSchema
 
 class JobService: 
     
-    def __init__(self):
-        pass
+    def __init__(self, job_repository: JobRepositoryDependency):
+        self.repository = job_repository
 
-    def get_jobs(filters: JobFilters):
-        pass
+    def get_jobs(self, filters: JobFilters) -> List[JobSchema]:
+        jobs = self.repository.get_jobs(filters)
+        return jobs
 
 JobServiceDependency = Annotated[JobService, Depends(JobService)]
