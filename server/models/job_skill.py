@@ -11,4 +11,4 @@ class JobSkill(Base):
     skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id"), nullable=False)
 
     job = relationship("Job", back_populates="job_skills")
-    skills = relationship("Skill", back_populates="job_skills")
+    skill = relationship("Skill", back_populates="job_skills")
