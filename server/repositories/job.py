@@ -1,4 +1,4 @@
-from sqlalchemy import select, case
+from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 from typing import Annotated
 from fastapi import Depends
@@ -23,13 +23,19 @@ class JobRepository(BaseRepository):
 
         if filters.country is not None:
             query = query.where(Job.country == filters.country)
-
+  
         if filters.qualification is not None:
             query = query.where(Job.qualification >= filters.qualification)
 
         if filters.experience is not None:
             query = query.where(Job.experience <= filters.experience)
 
+        
+
         return self.db.execute(query).scalars().all()
+
+    def get_job_by_id(self, id: int): 
+        query = select(Job).where(Job.id == id)
+        return self.db.execute(query).scalar_one_or_none()
 
 JobRepositoryDependency = Annotated[JobRepository, Depends(JobRepository)]

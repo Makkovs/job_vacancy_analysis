@@ -1,6 +1,5 @@
 import os
 import sys
-
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from db import SessionLocal
@@ -8,9 +7,18 @@ from schemas import JobSchema
 from models import Job, Skill, JobSkill
 from dataset_generation.main import generate_job
 
-def seed_jobs(count: int = 1000):
+def clear_db(db):
+    db.query(JobSkill).delete()
+    db.query(Job).delete()
+    db.query(Skill).delete()
+    db.commit()
+    print("Old data was deleted!")
+
+def seed_jobs(count: int = 1000, delete_data: str = "n"):
     db = SessionLocal()
     try: 
+        if delete_data == "y":
+            clear_db(db)
         existing_skills = {skill.name: skill for skill in db.query(Skill).all()}
 
         for _ in range(count):
@@ -36,5 +44,6 @@ def seed_jobs(count: int = 1000):
         db.close()
 
 if __name__ == "__main__":
+    delete_data = input("Delete old data? (Y/N): ").lower()
     jobs_count = int(input("Jobs Count: "))
-    seed_jobs(jobs_count)
+    seed_jobs(jobs_count, delete_data)

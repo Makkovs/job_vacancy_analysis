@@ -14,4 +14,8 @@ class JobService:
         jobs = self.repository.get_jobs(filters)
         return jobs
 
+    def get_job_by_id(self, id: int) -> Job:
+        job = self.repository.get_job_by_id(id)
+        return job
+
 JobServiceDependency = Annotated[JobService, Depends(JobService)]

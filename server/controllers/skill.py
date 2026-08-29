@@ -1,15 +1,10 @@
 from fastapi import APIRouter
+from typing import List
 
+from schemas import SkillSchema
+from services import SkillServiceDependency
 skill_router = APIRouter(prefix="/skill", tags=["skill"])
 
-@skill_router.post("/create", response_model=str)
-def create_skill():
-    return "Create Skill"
-
-@skill_router.get("/get", response_model=str)
-def get_skills():
-    return "Get Skills"
-
-@skill_router.delete("/delete", response_model=str)
-def delete_skill():
-    return "Delete Skill"
+@skill_router.get("/", response_model=List[SkillSchema])
+def get_skills(service: SkillServiceDependency):
+    return service.get_skills()

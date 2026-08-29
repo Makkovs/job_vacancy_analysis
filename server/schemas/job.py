@@ -9,6 +9,8 @@ class JobFilters(BaseModel):
     country: str | None = None
     qualification: int | None = None
     experience: int | None = None
+    page: int | None = 1
+    page_size: int | None = 15
 
 class JobSchema (BaseModel):
     title: str
