@@ -4,9 +4,9 @@ from fastapi import Depends
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
-DATABASE_URL = "postgresql://postgres:5434@localhost:5432/job-analysis"
+from config import settings
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(settings.DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(bind=engine)
 
 def get_db():

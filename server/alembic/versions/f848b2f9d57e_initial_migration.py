@@ -1,8 +1,8 @@
-"""Fixed names in JobSkills
+"""Initial_migration
 
-Revision ID: 29f588f4e289
-Revises: 237ebba0367d
-Create Date: 2026-08-23 14:27:26.905792
+Revision ID: f848b2f9d57e
+Revises: 
+Create Date: 2026-09-01 16:59:23.264175
 
 """
 from typing import Sequence, Union
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '29f588f4e289'
-down_revision: Union[str, None] = '237ebba0367d'
+revision: str = 'f848b2f9d57e'
+down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
