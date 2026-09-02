@@ -2,7 +2,8 @@ import jwt
 from fastapi import HTTPException, status
 from datetime import datetime, timedelta, timezone
 
-SECRET_KEY = "jobsmecret"
+from config import settings
+
 ALGORITHM = "HS256"
 
 def create_access_token (data: dict) -> str:
@@ -10,12 +11,12 @@ def create_access_token (data: dict) -> str:
     exp = datetime.now(timezone.utc) + timedelta(hours=12)
     payload.update({"exp" : exp})
 
-    token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+    token = jwt.encode(payload, settings.SECRET_KEY, algorithm=ALGORITHM)
     return token
 
 def verify_access_token(token: str) -> dict:
     try:
-        decoded = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        decoded = jwt.decode(token, settings.SECRET_KEY, algorithms=[ALGORITHM])
         return decoded
     
     except jwt.ExpiredSignatureError:

@@ -22,3 +22,14 @@ class JobSchema (BaseModel):
     skills: list[SkillSchema] = []
 
     model_config = ConfigDict(from_attributes=True)
+
+class JobGetSchema(JobSchema):
+    id: int
+    title: str
+    salary_min: int
+    salary_max: int
+    country: str
+    qualification: int
+    experience: int
+    skills: list[SkillSchema] = []
+    model_config = ConfigDict(from_attributes=True)
