@@ -1,4 +1,6 @@
-__all__ = ["UserAuthSchema", "UserSchema", "JobFilters", "JobSchema", "JobGetSchema", "SkillSchema", "ResumeSchemaCreate", "ResumeSchema", "ResumeSchemaUpdate"]
+__all__ = ["UserAuthSchema", "UserSchema", "JobFilters", "JobSchema", 
+           "JobGetSchema", "SkillSchema", "ResumeSchemaCreate", 
+           "ResumeSchema", "ResumeSchemaUpdate"]
 
 from schemas.user import UserAuthSchema
 from schemas.user import UserSchema

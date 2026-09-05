@@ -1,11 +1,12 @@
+from fastapi import Depends
+from typing import Annotated
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
-from typing import Annotated
-from fastapi import Depends
+
 from models import Resume, ResumeSkill
-from schemas import ResumeSchemaCreate, ResumeSchemaUpdate
 from repositories import BaseRepository
-from fastapi import HTTPException, status
+from exception import ResumeNotFoundError
+from schemas import ResumeSchemaCreate, ResumeSchemaUpdate
 
 class ResumeRepository(BaseRepository):
 
@@ -21,16 +22,16 @@ class ResumeRepository(BaseRepository):
         query = select(Resume).where(Resume.user_id == user_id)
         return self.db.execute(query).scalars().all()
 
-    def get_resume(self, id: int, user_id: int):
-        query = select(Resume).where(Resume.id == id,  Resume.user_id == user_id)
+    def get_resume_by_id(self, resume_id: int, user_id: int):
+        query = select(Resume).where(Resume.id == resume_id,  Resume.user_id == user_id)
         return self.db.execute(query).scalar_one_or_none()
 
-    def delete_resume(self, id: int, user_id: int):
-        query = select(Resume).where(Resume.id == id, Resume.user_id == user_id)
+    def delete_resume(self, resume_id: int, user_id: int):
+        query = select(Resume).where(Resume.id == resume_id, Resume.user_id == user_id)
         resume = self.db.scalar(query)
 
         if not resume:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+            raise ResumeNotFoundError(resume_id)
 
         self.db.delete(resume)
         self.db.commit()
@@ -44,7 +45,7 @@ class ResumeRepository(BaseRepository):
         resume = self.db.scalar(query)
 
         if not resume:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+            raise ResumeNotFoundError(resume_id)
 
         update_data = resume_dto.model_dump(exclude_unset=True)
 
@@ -55,6 +56,5 @@ class ResumeRepository(BaseRepository):
         self.db.refresh(resume)
 
         return resume
-
 
 ResumeRepositoryDependency = Annotated[ResumeRepository, Depends(ResumeRepository)]

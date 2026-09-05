@@ -1,5 +1,5 @@
+from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, relationship, mapped_column
-from sqlalchemy import Integer, String, Text
 from sqlalchemy.ext.associationproxy import association_proxy, AssociationProxy
 
 from models import Base, Skill

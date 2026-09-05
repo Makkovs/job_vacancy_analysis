@@ -1,10 +1,10 @@
-from typing import Annotated
 from fastapi import Depends
+from typing import Annotated
 from sqlalchemy import select
 
 from models import User
-from repositories import BaseRepository
 from schemas import UserAuthSchema
+from repositories import BaseRepository
 
 class UserRepository(BaseRepository):
 

@@ -10,7 +10,6 @@ class SkillService:
         self.repository = skill_repository
 
     def get_skills(self) -> List[Skill]:
-        skills = self.repository.get_skills()
-        return skills
+        return self.repository.get_skills()
 
 SkillServiceDependency = Annotated[SkillService, Depends(SkillService)]

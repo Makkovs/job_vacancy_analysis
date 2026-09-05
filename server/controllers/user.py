@@ -1,7 +1,8 @@
-from fastapi import APIRouter, status, Header, HTTPException
+from fastapi import APIRouter, status, Header
 
-from schemas import UserAuthSchema, UserSchema
+from exception import UnauthorizedError
 from services import UserServiceDependency
+from schemas import UserAuthSchema, UserSchema
 
 user_router = APIRouter(prefix="/user", tags=["user"])
 
@@ -23,10 +24,17 @@ def update_token(
     service: UserServiceDependency = UserServiceDependency
 ) -> str:
     if not authorization:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
+        raise UnauthorizedError
     token = authorization.split(" ")[1]
     return service.update_token(token)
 
-@user_router.delete("/delete", response_model=str)
-def delete_user(id: int, service: UserServiceDependency):
-    return service.delete_user(id)
+@user_router.delete("/delete/{id}", response_model=str)
+def delete_user(
+    id: int, 
+    authorization: str | None = Header(None),
+    service: UserServiceDependency = UserServiceDependency
+    ):
+    if not authorization:
+        raise UnauthorizedError
+    token = authorization.split(" ")[1]
+    return service.delete_user(id, token)

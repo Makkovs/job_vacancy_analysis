@@ -1,18 +1,18 @@
 from typing import List, Optional
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field, PositiveInt
 from schemas import SkillSchema
 
 class ResumeSchemaCreate (BaseModel):
-    title: str
-    description: str
-    skill_ids: List[int]
+    title: str = Field(min_length=2, max_length=100)
+    description: str = Field(min_length=2, max_length=5000)
+    skill_ids: List[PositiveInt] = Field(default_factory=list)
 
     model_config = ConfigDict(from_attributes=True)
 
 class ResumeSchema (BaseModel):
-    id: int
-    title: str
-    description: str
+    id: PositiveInt
+    title: str = Field(min_length=2, max_length=100)
+    description: str = Field(min_length=2, max_length=5000)
     skills: list[SkillSchema] = []
 
     model_config = ConfigDict(from_attributes=True)

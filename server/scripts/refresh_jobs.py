@@ -19,20 +19,24 @@ def seed_jobs(count: int = 1000, delete_data: str = "n"):
     try: 
         if delete_data == "y":
             clear_db(db)
+            
         existing_skills = {skill.name: skill for skill in db.query(Skill).all()}
 
         for _ in range(count):
             job_data = generate_job()
             job_schema = JobSchema.model_validate(job_data)
             new_job = Job(**job_schema.model_dump(exclude={"skills"}))
+
             for skill_item in job_schema.skills:
                 skill_name = skill_item.name
                 if skill_name not in existing_skills:
                     new_skill = Skill(name = skill_name)
                     existing_skills[skill_name] = new_skill
+
                 skill_obj = existing_skills[skill_name]
                 job_skill = JobSkill(job=new_job, skill=skill_obj)
                 db.add(job_skill)
+
             db.add(new_job)
 
         db.commit()

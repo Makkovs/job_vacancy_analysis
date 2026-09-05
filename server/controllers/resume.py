@@ -1,5 +1,7 @@
-from fastapi import APIRouter, Header, HTTPException, status
 from typing import List
+from fastapi import APIRouter, Header
+
+from exception import UnauthorizedError
 from services import ResumeServiceDependency
 from schemas import ResumeSchema, ResumeSchemaCreate, ResumeSchemaUpdate
 
@@ -12,7 +14,7 @@ def create_resume(
     service: ResumeServiceDependency = ResumeServiceDependency
 ):
     if not authorization:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+        raise UnauthorizedError()
     token = authorization.split(" ")[1]
     return service.create_resume(resume, token)
 
@@ -22,31 +24,31 @@ def get_resumes(
     service: ResumeServiceDependency = ResumeServiceDependency
 ):
     if not authorization:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+        raise UnauthorizedError()
     token = authorization.split(" ")[1]
     return service.get_resumes(token)
 
-@resume_router.get("/get/{id}", response_model=ResumeSchema)
+@resume_router.get("/get/{resume_id}", response_model=ResumeSchema)
 def get_resume_by_id(
-    id: int,
+    resume_id: int,
     authorization: str | None = Header(None),
     service: ResumeServiceDependency = ResumeServiceDependency
 ):
     if not authorization:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+        raise UnauthorizedError()
     token = authorization.split(" ")[1]
-    return service.get_resume_by_id(token, id)
+    return service.get_resume_by_id(resume_id, token)
 
-@resume_router.delete("/{id}", response_model=str)
+@resume_router.delete("/{resume_id}", response_model=str)
 def delete_resume(
-    id: int,
+    resume_id: int,
     authorization: str | None = Header(None),
     service: ResumeServiceDependency = ResumeServiceDependency
-): 
+):  
     if not authorization:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+        raise UnauthorizedError() 
     token = authorization.split(" ")[1]
-    return service.delete_resume(token, id)
+    return service.delete_resume(resume_id, token)
 
 @resume_router.patch("/patch/{resume_id}", response_model=ResumeSchema)
 def patch_resume(
@@ -56,6 +58,6 @@ def patch_resume(
     service: ResumeServiceDependency = ResumeServiceDependency
 ):
     if not authorization:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+        raise UnauthorizedError()
     token = authorization.split(" ")[1]
-    return service.patch_resume(token, resume_id, resume)
+    return service.patch_resume(resume_id, resume, token)

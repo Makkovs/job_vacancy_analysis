@@ -1,10 +1,10 @@
+from fastapi import Depends
+from typing import Annotated
 from sqlalchemy import select, func
 from sqlalchemy.orm import selectinload
-from typing import Annotated
-from fastapi import Depends
 
-from models import Job, Skill, JobSkill
 from schemas import JobFilters
+from models import Job, JobSkill
 from repositories import BaseRepository
 
 class JobRepository(BaseRepository):
@@ -12,8 +12,14 @@ class JobRepository(BaseRepository):
     def get_jobs(self, filters: JobFilters):
         query = select(Job).options(selectinload(Job.job_skills))   
         if filters.skill_ids is not None:
-            query = query.where(Job.job_skills.any(JobSkill.skill_id.in_(filters.skill_ids)))
-
+            query = (
+                query
+                .join(Job.job_skills)
+                .where(JobSkill.skill_id.in_(filters.skill_ids))
+                .group_by(Job.id)
+                .having(func.count(func.distinct(JobSkill.skill_id)) == len(filters.skill_ids))
+            )
+            
         if filters.salary_min is not None:
             query = query.where(Job.salary_max >= filters.salary_min)
 

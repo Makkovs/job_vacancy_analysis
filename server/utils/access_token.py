@@ -3,6 +3,7 @@ from fastapi import HTTPException, status
 from datetime import datetime, timedelta, timezone
 
 from config import settings
+from exception import UnauthorizedError
 
 ALGORITHM = "HS256"
 
@@ -20,7 +21,6 @@ def verify_access_token(token: str) -> dict:
         return decoded
     
     except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
-    
+        raise UnauthorizedError
     except jwt.InvalidTokenError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
+        raise UnauthorizedError

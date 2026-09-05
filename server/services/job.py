@@ -2,8 +2,8 @@ from fastapi import Depends
 from typing import Annotated, List
 
 from models import Job
+from schemas import JobFilters
 from repositories import JobRepositoryDependency
-from schemas import JobFilters, JobSchema
 
 class JobService: 
     
@@ -11,11 +11,9 @@ class JobService:
         self.repository = job_repository
 
     def get_jobs(self, filters: JobFilters) -> List[Job]:
-        jobs = self.repository.get_jobs(filters)
-        return jobs
+        return self.repository.get_jobs(filters)
 
-    def get_job_by_id(self, id: int) -> Job:
-        job = self.repository.get_job_by_id(id)
-        return job
-
+    def get_job_by_id(self, job_id: int) -> Job:
+        return self.repository.get_job_by_id(job_id)
+        
 JobServiceDependency = Annotated[JobService, Depends(JobService)]

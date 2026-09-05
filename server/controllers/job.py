@@ -1,5 +1,6 @@
-from fastapi import APIRouter, Query
 from typing import Annotated, List
+from fastapi import APIRouter, Query
+
 from schemas import JobFilters, JobGetSchema
 from services import JobServiceDependency
 

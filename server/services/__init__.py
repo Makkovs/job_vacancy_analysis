@@ -1,4 +1,5 @@
-__all__ = ["UserServiceDependency", "JobServiceDependency", "SkillServiceDependency", "ResumeServiceDependency"]
+__all__ = ["UserServiceDependency", "JobServiceDependency", "SkillServiceDependency", 
+            "ResumeServiceDependency"]
 
 from services.user import UserServiceDependency
 from services.job import JobServiceDependency
