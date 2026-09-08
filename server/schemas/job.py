@@ -33,3 +33,13 @@ class JobGetSchema(JobSchema):
     experience: int
     skills: list[SkillSchema] = []
     model_config = ConfigDict(from_attributes=True)
+
+class JobStatsSchema(BaseModel):
+    total_jobs: int
+    salary_min: int
+    salary_max: int
+    salary_avg: int
+    salary_median: int
+    salary_p25: int
+    salary_p75: int
+    top_skills: list[SkillSchema] = []

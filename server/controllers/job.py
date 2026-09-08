@@ -1,7 +1,7 @@
 from typing import Annotated, List
 from fastapi import APIRouter, Query
 
-from schemas import JobFilters, JobGetSchema
+from schemas import JobFilters, JobGetSchema, JobStatsSchema
 from services import JobServiceDependency
 
 job_router = APIRouter(prefix="/job", tags=["job"])
@@ -12,6 +12,13 @@ async def get_jobs(
     service: JobServiceDependency
 ):
     return await service.get_jobs(filters)
+
+@job_router.get("/stats", response_model=JobStatsSchema)
+async def get_stats(
+    filters: Annotated[JobFilters, Query()],
+    service: JobServiceDependency
+):
+    return await service.get_stats(filters)
 
 @job_router.get("/{job_id}", response_model=JobGetSchema)
 async def get_job_by_id(

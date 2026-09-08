@@ -14,7 +14,6 @@ async def domain_exception_handler (request: Request, exc: DomainException):
     )
 
 app.include_router(user_router)
-app.include_router(stats_router)
 app.include_router(skill_router)
 app.include_router(resume_router)
 app.include_router(job_router)
