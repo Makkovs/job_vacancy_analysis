@@ -1,19 +1,17 @@
-from typing import Annotated
+from typing import Annotated, AsyncGenerator
 
 from fastapi import Depends
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 
 from config import settings
 
-engine = create_engine(settings.DATABASE_URL, echo=True)
-SessionLocal = sessionmaker(bind=engine)
+engine = create_async_engine(settings.DATABASE_URL, echo=True)  
+AsyncSessionLocal = async_sessionmaker(
+    bind=engine, class_=AsyncSession, expire_on_commit=False
+)
 
-def get_db():
-    db = SessionLocal()
-    try:
+async def get_db() -> AsyncGenerator[AsyncSession, None]:
+    async with AsyncSessionLocal() as db:
         yield db
-    finally:
-        db.close()
 
-DatabaseSession = Annotated[Session, Depends(get_db)]
+DatabaseSession = Annotated[AsyncSession, Depends(get_db)]

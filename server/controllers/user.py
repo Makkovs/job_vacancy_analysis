@@ -7,29 +7,29 @@ from schemas import UserAuthSchema, UserSchema
 user_router = APIRouter(prefix="/user", tags=["user"])
 
 @user_router.get("/{id}", response_model=UserSchema)
-def get_user(id: int, service: UserServiceDependency) -> UserSchema:
-    return service.get_user(id)
+async def get_user(id: int, service: UserServiceDependency) -> UserSchema:
+    return await service.get_user(id)
 
 @user_router.post("/auth/register", response_model=str, status_code=status.HTTP_201_CREATED)
-def create_user(user: UserAuthSchema, service: UserServiceDependency):
-    return service.create_user(user=user)
+async def create_user(user: UserAuthSchema, service: UserServiceDependency):
+    return await service.create_user(user=user)
 
 @user_router.post("/auth/login", response_model=str)
-def login_user(user_auth: UserAuthSchema, service: UserServiceDependency):
-    return service.login_user(user_auth=user_auth)
+async def login_user(user_auth: UserAuthSchema, service: UserServiceDependency):
+    return await service.login_user(user_auth=user_auth)
 
 @user_router.post("/auth/", response_model=str)
-def update_token(
+async def update_token(
     authorization: str | None = Header(None), 
     service: UserServiceDependency = UserServiceDependency
 ) -> str:
     if not authorization:
         raise UnauthorizedError
     token = authorization.split(" ")[1]
-    return service.update_token(token)
+    return await service.update_token(token)
 
 @user_router.delete("/delete/{id}", response_model=str)
-def delete_user(
+async def delete_user(
     id: int, 
     authorization: str | None = Header(None),
     service: UserServiceDependency = UserServiceDependency
@@ -37,4 +37,4 @@ def delete_user(
     if not authorization:
         raise UnauthorizedError
     token = authorization.split(" ")[1]
-    return service.delete_user(id, token)
+    return await service.delete_user(id, token)

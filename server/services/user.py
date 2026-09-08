@@ -11,12 +11,12 @@ class UserService:
     def __init__(self, user_repository: UserRepositoryDependency): 
         self.repository = user_repository
 
-    def create_user(self, user: UserAuthSchema) -> str:
+    async def create_user(self, user: UserAuthSchema) -> str:
         hashed_password = bcrypt.hashpw(
             user.password.encode('utf-8'), bcrypt.gensalt()
         ).decode("utf-8")
         user.password = hashed_password
-        new_user = self.repository.create_user(user)
+        new_user = await self.repository.create_user(user)
 
         token_data = {
             "id" : new_user.id,
@@ -25,8 +25,8 @@ class UserService:
 
         return create_access_token(token_data)
     
-    def login_user(self, user_auth: UserAuthSchema) -> str:
-        user = self.repository.get_user_by_email(user_auth.email)
+    async def login_user(self, user_auth: UserAuthSchema) -> str:
+        user = await self.repository.get_user_by_email(user_auth.email)
         
         if user is None:
             raise UnauthorizedError(message="Invalid email or password!")
@@ -46,7 +46,7 @@ class UserService:
         access_token = create_access_token(token_data)
         return access_token
 
-    def update_token (self, token: str | None) -> str:
+    async def update_token (self, token: str | None) -> str:
         decoded = verify_access_token(token)
         new_token = {
             "id" : decoded["id"],
@@ -55,22 +55,22 @@ class UserService:
          
         return create_access_token(new_token)
             
-    def get_user(self, id: int) -> UserSchema:
-        user = self.repository.get_user_by_id(id)        
+    async def get_user(self, id: int) -> UserSchema:
+        user = await self.repository.get_user_by_id(id)        
         if user is None:
             raise UserNotFoundError(id)
         return UserSchema.model_validate(user)
     
-    def delete_user(self, id: int, token: str) -> str:
+    async def delete_user(self, id: int, token: str) -> str:
         decoded = verify_access_token(token)
         if decoded["id"] != id:
             raise AccessDeniedError()
     
-        user = self.repository.get_user_by_id(id)
+        user = await self.repository.get_user_by_id(id)
         if user is None:
             raise UserNotFoundError(id)
         
-        self.repository.delete_user(user)
+        await self.repository.delete_user(user)
         return "User was deleted"
 
 UserServiceDependency = Annotated[UserService, Depends(UserService)]

@@ -9,8 +9,10 @@ from repositories import BaseRepository
 
 class JobRepository(BaseRepository):
 
-    def get_jobs(self, filters: JobFilters):
-        query = select(Job).options(selectinload(Job.job_skills))   
+    async def get_jobs(self, filters: JobFilters):
+        query = select(Job).options(
+            selectinload(Job.job_skills).joinedload(JobSkill.skill)
+        )
         if filters.skill_ids is not None:
             query = (
                 query
@@ -38,10 +40,15 @@ class JobRepository(BaseRepository):
         offset = (filters.page - 1) * filters.page_size
         query = query.offset(offset).limit(filters.page_size)
 
-        return self.db.execute(query).scalars().all()
+        return (await self.db.scalars(query)).all()
 
-    def get_job_by_id(self, id: int): 
-        query = select(Job).where(Job.id == id)
-        return self.db.execute(query).scalar_one_or_none()
+    async def get_job_by_id(self, job_id: int): 
+        query = (
+            select(Job)
+            .where(Job.id == job_id)
+            .options(
+                selectinload(Job.job_skills).joinedload(JobSkill.skill))
+        )  
+        return await self.db.scalar(query)
 
 JobRepositoryDependency = Annotated[JobRepository, Depends(JobRepository)]

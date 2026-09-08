@@ -8,24 +8,24 @@ from repositories import BaseRepository
 
 class UserRepository(BaseRepository):
 
-    def create_user(self, user: UserAuthSchema) -> User:
+    async def create_user(self, user: UserAuthSchema) -> User:
         new_user = User(email = user.email, password = user.password)
         self.db.add(new_user)
-        self.db.commit()
-        self.db.refresh(new_user)
+        await self.db.commit()
+        await self.db.refresh(new_user)
         
         return new_user
     
-    def get_user_by_email(self, email: str) -> User:
+    async def get_user_by_email(self, email: str) -> User:
         query = select(User).where(User.email == email)
-        return self.db.execute(query).scalar_one_or_none()
+        return await self.db.scalar(query)
     
-    def get_user_by_id(self, id: int) -> User:
+    async def get_user_by_id(self, id: int) -> User:
         query = select(User).where(User.id == id)
-        return self.db.execute(query).scalar_one_or_none()
+        return await self.db.scalar(query)
 
-    def delete_user(self, user: User) -> bool:
-        self.db.delete(user)
-        self.db.commit()
+    async def delete_user(self, user: User) -> bool:
+        await self.db.delete(user)
+        await self.db.commit()
 
 UserRepositoryDependency = Annotated[UserRepository, Depends(UserRepository)]

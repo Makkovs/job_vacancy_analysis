@@ -10,10 +10,10 @@ class JobService:
     def __init__(self, job_repository: JobRepositoryDependency):
         self.repository = job_repository
 
-    def get_jobs(self, filters: JobFilters) -> List[Job]:
-        return self.repository.get_jobs(filters)
+    async def get_jobs(self, filters: JobFilters) -> List[Job]:
+        return await self.repository.get_jobs(filters)
 
-    def get_job_by_id(self, job_id: int) -> Job:
-        return self.repository.get_job_by_id(job_id)
+    async def get_job_by_id(self, job_id: int) -> Job:
+        return await self.repository.get_job_by_id(job_id)
         
 JobServiceDependency = Annotated[JobService, Depends(JobService)]

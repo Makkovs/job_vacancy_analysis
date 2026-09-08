@@ -9,7 +9,7 @@ class SkillService:
     def __init__(self, skill_repository: SkillRepositoryDependency):
         self.repository = skill_repository
 
-    def get_skills(self) -> List[Skill]:
-        return self.repository.get_skills()
+    async def get_skills(self) -> List[Skill]:
+        return await self.repository.get_skills()
 
 SkillServiceDependency = Annotated[SkillService, Depends(SkillService)]

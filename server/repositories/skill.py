@@ -7,8 +7,8 @@ from repositories import BaseRepository
 
 class SkillRepository(BaseRepository):
 
-    def get_skills(self) -> List[Skill]:
+    async def get_skills(self) -> List[Skill]:
         query = select(Skill)
-        return self.db.execute(query).scalars().all()
+        return (await self.db.scalars(query)).all()
 
 SkillRepositoryDependency = Annotated[SkillRepository, Depends(SkillRepository)]

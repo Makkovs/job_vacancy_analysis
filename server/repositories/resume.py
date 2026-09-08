@@ -10,39 +10,52 @@ from schemas import ResumeSchemaCreate, ResumeSchemaUpdate
 
 class ResumeRepository(BaseRepository):
 
-    def create_resume(self, resume: ResumeSchemaCreate, user_id: int):
-        new_resume = Resume(title=resume.title, description = resume.description, user_id = user_id, skill_ids=resume.skill_ids)
+    async def create_resume(self, resume: ResumeSchemaCreate, user_id: int):
+        new_resume = Resume(
+            title=resume.title,
+            description = resume.description, 
+            user_id = user_id, 
+            skill_ids=resume.skill_ids
+        )
+        
         self.db.add(new_resume)
-        self.db.commit()
-        self.db.refresh(new_resume, attribute_names=["resume_skills"])
+        await self.db.commit()
 
-        return new_resume
+        query = (
+            select(Resume)
+            .where(Resume.id == new_resume.id)
+            .options(selectinload(Resume.resume_skills).selectinload(ResumeSkill.skill))
+        )
 
-    def get_resumes(self, user_id: int): 
-        query = select(Resume).where(Resume.user_id == user_id)
-        return self.db.execute(query).scalars().all()
+        return await self.db.scalar(query)
 
-    def get_resume_by_id(self, resume_id: int, user_id: int):
-        query = select(Resume).where(Resume.id == resume_id,  Resume.user_id == user_id)
-        return self.db.execute(query).scalar_one_or_none()
+    async def get_resumes(self, user_id: int): 
+        query = (
+            select(Resume)
+            .where(Resume.user_id == user_id)
+            .options(selectinload(Resume.resume_skills).selectinload(ResumeSkill.skill))
+        )
+        return await self.db.scalars(query)
 
-    def delete_resume(self, resume_id: int, user_id: int):
-        query = select(Resume).where(Resume.id == resume_id, Resume.user_id == user_id)
-        resume = self.db.scalar(query)
+    async def get_resume_by_id(self, resume_id: int, user_id: int):
+        query = (
+            select(Resume)
+            .where(Resume.id == resume_id, Resume.user_id == user_id)
+            .options(selectinload(Resume.resume_skills).selectinload(ResumeSkill.skill))
+        )
+        return await self.db.scalar(query)
 
-        if not resume:
-            raise ResumeNotFoundError(resume_id)
+    async def delete_resume(self, resume: Resume):
+        await self.db.delete(resume)
+        await self.db.commit()
 
-        self.db.delete(resume)
-        self.db.commit()
-
-    def patch_resume(self, resume_id: int, user_id: int, resume_dto: ResumeSchemaUpdate):
+    async def patch_resume(self, resume_id: int, user_id: int, resume_dto: ResumeSchemaUpdate):
         query = (
             select(Resume)
             .where(Resume.id == resume_id, Resume.user_id == user_id)
             .options(selectinload(Resume.resume_skills).selectinload(ResumeSkill.skill))    
         )
-        resume = self.db.scalar(query)
+        resume = await self.db.scalar(query)
 
         if not resume:
             raise ResumeNotFoundError(resume_id)
@@ -52,8 +65,8 @@ class ResumeRepository(BaseRepository):
         for field, value in update_data.items():
             setattr(resume, field, value)
 
-        self.db.commit()
-        self.db.refresh(resume)
+        await self.db.commit()
+        await self.db.refresh(resume)
 
         return resume
 

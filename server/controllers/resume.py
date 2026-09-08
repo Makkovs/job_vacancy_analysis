@@ -8,7 +8,7 @@ from schemas import ResumeSchema, ResumeSchemaCreate, ResumeSchemaUpdate
 resume_router = APIRouter(prefix="/resume", tags=["resume"])
 
 @resume_router.post("/create", response_model=ResumeSchema)
-def create_resume(
+async def create_resume(
     resume: ResumeSchemaCreate,
     authorization: str | None = Header(None),
     service: ResumeServiceDependency = ResumeServiceDependency
@@ -16,20 +16,20 @@ def create_resume(
     if not authorization:
         raise UnauthorizedError()
     token = authorization.split(" ")[1]
-    return service.create_resume(resume, token)
+    return await service.create_resume(resume, token)
 
 @resume_router.get("/get", response_model=List[ResumeSchema])
-def get_resumes(
+async def get_resumes(
     authorization: str | None = Header(None),
     service: ResumeServiceDependency = ResumeServiceDependency
 ):
     if not authorization:
         raise UnauthorizedError()
     token = authorization.split(" ")[1]
-    return service.get_resumes(token)
+    return await service.get_resumes(token)
 
 @resume_router.get("/get/{resume_id}", response_model=ResumeSchema)
-def get_resume_by_id(
+async def get_resume_by_id(
     resume_id: int,
     authorization: str | None = Header(None),
     service: ResumeServiceDependency = ResumeServiceDependency
@@ -37,10 +37,10 @@ def get_resume_by_id(
     if not authorization:
         raise UnauthorizedError()
     token = authorization.split(" ")[1]
-    return service.get_resume_by_id(resume_id, token)
+    return await service.get_resume_by_id(resume_id, token)
 
 @resume_router.delete("/{resume_id}", response_model=str)
-def delete_resume(
+async def delete_resume(
     resume_id: int,
     authorization: str | None = Header(None),
     service: ResumeServiceDependency = ResumeServiceDependency
@@ -48,10 +48,10 @@ def delete_resume(
     if not authorization:
         raise UnauthorizedError() 
     token = authorization.split(" ")[1]
-    return service.delete_resume(resume_id, token)
+    return await service.delete_resume(resume_id, token)
 
 @resume_router.patch("/patch/{resume_id}", response_model=ResumeSchema)
-def patch_resume(
+async def patch_resume(
     resume_id: int,
     resume: ResumeSchemaUpdate,
     authorization: str | None = Header(None),
@@ -60,4 +60,4 @@ def patch_resume(
     if not authorization:
         raise UnauthorizedError()
     token = authorization.split(" ")[1]
-    return service.patch_resume(resume_id, resume, token)
+    return await service.patch_resume(resume_id, resume, token)

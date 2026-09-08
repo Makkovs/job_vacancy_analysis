@@ -7,15 +7,15 @@ from services import JobServiceDependency
 job_router = APIRouter(prefix="/job", tags=["job"])
 
 @job_router.get("/", response_model=List[JobGetSchema])
-def get_jobs(
+async def get_jobs(
     filters: Annotated[JobFilters, Query()],
     service: JobServiceDependency
 ):
-    return service.get_jobs(filters)
+    return await service.get_jobs(filters)
 
-@job_router.get("/{id}", response_model=JobGetSchema)
-def get_job_by_id(
-    id: int,
+@job_router.get("/{job_id}", response_model=JobGetSchema)
+async def get_job_by_id(
+    job_id: int,
     service: JobServiceDependency
 ):
-    return service.get_job_by_id(id)
+    return await service.get_job_by_id(job_id)
