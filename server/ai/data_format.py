@@ -24,10 +24,23 @@ async def get_formatted_jobs () -> pd.DataFrame:
     df["salary_avg"] = (df["salary_min"] + df["salary_max"]) / 2
     df["salary_avg"] = df["salary_avg"].astype(int)
 
+    df.drop("title", axis = 1, inplace = True)
+    df.drop("salary_min", axis = 1, inplace = True)
+    df.drop("salary_max", axis = 1, inplace = True)
+
+    df = pd.get_dummies(df, columns = ["country"], drop_first = True, dtype = int)
+
     skills_lists = df["skills"].apply(lambda x: [skill["name"] for skill in x])
     skill_dumies = (
         pd.get_dummies(skills_lists.explode()).groupby(level = 0).sum()
     )
 
     df = pd.concat([df.drop(columns=["skills"]), skill_dumies], axis = 1)
-    return df
+
+    answers = df["salary_avg"]
+    values = df.drop(columns = "salary_avg")
+
+    scale_cols = ["qualification", "experience"]
+    values[scale_cols] = (values[scale_cols] - values[scale_cols].min()) / (values[scale_cols].max() - values[scale_cols].min())
+
+    return answers, values
