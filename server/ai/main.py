@@ -12,4 +12,3 @@ from model import Model
 answers, values = asyncio.run(get_formatted_jobs())
 
 model = Model(0.01, values, answers)
-

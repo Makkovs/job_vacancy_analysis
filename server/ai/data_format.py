@@ -40,7 +40,4 @@ async def get_formatted_jobs () -> pd.DataFrame:
     answers = df["salary_avg"]
     values = df.drop(columns = "salary_avg")
 
-    scale_cols = ["qualification", "experience"]
-    values[scale_cols] = (values[scale_cols] - values[scale_cols].min()) / (values[scale_cols].max() - values[scale_cols].min())
-
     return answers, values
