@@ -61,3 +61,14 @@ async def patch_resume(
         raise UnauthorizedError()
     token = authorization.split(" ")[1]
     return await service.patch_resume(resume_id, resume, token)
+
+@resume_router.get("/predict/salary", response_model=int)
+async def predict_salary(
+    resume_id: int,
+    authorization: str | None = Header(None),
+    service: ResumeServiceDependency = ResumeServiceDependency
+):
+    if not authorization:
+        raise UnauthorizedError()
+    token = authorization.split(" ")[1]
+    return await service

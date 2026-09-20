@@ -40,4 +40,12 @@ class ResumeService:
         user = verify_access_token(token)
         return await self.repository.patch_resume(resume_id, user["id"], resume)
 
+    async def predict_salary(self, resume_id, token) -> int:
+        user = verify_access_token(token)
+        resume = await self.repository.get_resume_by_id(resume_id, user["id"])
+        if not resume:
+            raise ResumeNotFoundError(resume_id)
+
+        
+
 ResumeServiceDependency = Annotated[ResumeService, Depends(ResumeService)]
