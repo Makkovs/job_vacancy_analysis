@@ -7,7 +7,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from db import AsyncSessionLocal
 from repositories.job import JobRepository
-from schemas import JobFilters, JobSchema
+from schemas import JobFilters, JobSchema, ResumeSchema
 
 async def get_data():
     async with AsyncSessionLocal() as session: 
@@ -35,9 +35,30 @@ async def get_formatted_jobs () -> pd.DataFrame:
         pd.get_dummies(skills_lists.explode()).groupby(level = 0).sum()
     )
 
-    df = pd.concat([df.drop(columns=["skills"]), skill_dumies], axis = 1)
+    df = pd.concat([df.drop(columns = ["skills"]), skill_dumies], axis = 1)
 
     answers = df["salary_avg"]
     values = df.drop(columns = "salary_avg")
 
     return answers, values
+
+def format_resume (resume, feature_columns) -> pd.DataFrame:
+    adapter_resume = TypeAdapter(ResumeSchema)
+    resume_pydantic = adapter_resume.validate_python(resume)
+    
+    df = pd.DataFrame([resume_pydantic.model_dump()])
+    df.drop("title", axis = 1, inplace = True)
+    df.drop("description", axis = 1, inplace = True)
+
+    skill_lists = df["skills"].apply(
+        lambda x: [skill["name"] for skill in x]
+    )
+    skill_dummies = (
+        pd.get_dummies(skill_lists.explode()).groupby(level = 0).sum()
+    )
+
+    df = pd.concat([df.drop(columns = ["skills"]), skill_dummies], axis = 1)
+    df = pd.get_dummies(df, columns = ["country"], drop_first = True, dtype = int)
+    df_aligned = df.reindex(columns = feature_columns, fill_value = 0)
+
+    return df_aligned

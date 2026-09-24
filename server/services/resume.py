@@ -1,11 +1,15 @@
 from fastapi import Depends
 from typing import Annotated, List
-
+from pydantic import TypeAdapter
+import pandas as pd
 from models import Resume
-from schemas import ResumeSchemaUpdate
+from schemas import ResumeSchemaUpdate, ResumeSchema
 from exception import ResumeNotFoundError
 from utils.access_token import verify_access_token
 from repositories import ResumeRepositoryDependency
+
+from ai.model import Model
+from ai.data_format import format_resume
 
 class ResumeService:
     def __init__(self, resume_repository: ResumeRepositoryDependency):
@@ -46,6 +50,12 @@ class ResumeService:
         if not resume:
             raise ResumeNotFoundError(resume_id)
 
+        model = Model()
+        model.load_weights()
+
+        data = format_resume(resume, model.feature_columns)
+        predict = int(model.predict(data)[0])
+        return predict
         
 
 ResumeServiceDependency = Annotated[ResumeService, Depends(ResumeService)]

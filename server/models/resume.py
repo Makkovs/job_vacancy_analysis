@@ -10,6 +10,10 @@ class Resume(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     title: Mapped[str] = mapped_column(String(255))
     description: Mapped[str] = mapped_column(Text)
+    qualification: Mapped[int] = mapped_column(Integer, nullable=False)
+    country: Mapped[str] = mapped_column(String(255), nullable=False)
+    experience: Mapped[int] = mapped_column(Integer)
+    
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
 
     user = relationship("User", back_populates="resumes")

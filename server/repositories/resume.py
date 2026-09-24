@@ -13,7 +13,10 @@ class ResumeRepository(BaseRepository):
     async def create_resume(self, resume: ResumeSchemaCreate, user_id: int):
         new_resume = Resume(
             title=resume.title,
-            description = resume.description, 
+            description = resume.description,
+            qualification = resume.qualification,
+            experience = resume.experience,
+            country = resume.country,
             user_id = user_id, 
             skill_ids=resume.skill_ids
         )

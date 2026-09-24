@@ -4,15 +4,15 @@ import numpy as np
 import pandas as pd
 
 class Model:
-    def __init__ (self, learning_rate: float, weights_num: int = 1): 
+    def __init__ (self, weights_num: int = 1): 
         self.bias = 0
-        self.learning_rate = learning_rate
         self.weights = np.random.uniform(low=0.0, high=0.1, size=weights_num)
 
         self.X_min = None
         self.X_range = None
         self.Y_min = None
         self.Y_range = None
+        self.feature_columns = []
 
     def normalize (self, values: np.ndarray) -> np.ndarray:
         values_min = values.min(axis=0)
@@ -34,16 +34,19 @@ class Model:
     def get_loss (self, answers: np.ndarray, predictions: np.ndarray) -> float:
         return np.mean((answers - predictions) ** 2)
 
-    def update_weights (self, answers: np.ndarray, values: np.ndarray, predictions: np.ndarray):
+    def update_weights (
+            self, answers: np.ndarray, values: np.ndarray, 
+            predictions: np.ndarray, learning_rate: float
+        ):
         error = predictions - answers
 
         gradient_weights = np.dot(values.T, error) / len(values)
         gradient_bias = np.mean(error)
 
-        self.weights -= self.learning_rate * gradient_weights
-        self.bias -= self.learning_rate * gradient_bias
+        self.weights -= learning_rate * gradient_weights
+        self.bias -= learning_rate * gradient_bias
 
-    def fit(self, X: pd.DataFrame, Y: pd.Series, iterations: int):
+    def fit(self, X: pd.DataFrame, Y: pd.Series, iterations: int, learning_rate: float):
         X_raw = X.to_numpy(dtype=np.float64)
         Y_raw = Y.to_numpy(dtype=np.float64).ravel()
 
@@ -57,7 +60,9 @@ class Model:
             if (i + 1) % 100 == 0 or i == 0:
                 print(f"Iteration {i+1}, loss: {loss}")
 
-            self.update_weights(Y_norm, X_norm, predictions)
+            self.update_weights(Y_norm, X_norm, predictions, learning_rate)
+
+        self.feature_columns = list(X.columns)
 
     def predict(self, values: pd.DataFrame) -> np.ndarray:
         values_norm = (values - self.X_min) / self.X_range
@@ -74,7 +79,8 @@ class Model:
             "X_min" : self.X_min.tolist(),
             "X_range" : self.X_range.tolist(),
             "Y_min" : self.Y_min.tolist(),
-            "Y_range" : self.Y_range.tolist()
+            "Y_range" : self.Y_range.tolist(),
+            "feature_columns" : self.feature_columns
         }
 
         base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -83,6 +89,7 @@ class Model:
         with open(filepath, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4)
         print("Model was saved")
+
 
     def load_weights(self, filename: str = "weights.json"):
         base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -97,3 +104,4 @@ class Model:
         self.X_range = np.array(data["X_range"], dtype=np.float64)
         self.Y_min = data["Y_min"]
         self.Y_range = data["Y_range"]
+        self.feature_columns = data["feature_columns"]
