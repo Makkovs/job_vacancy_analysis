@@ -72,3 +72,14 @@ async def predict_salary(
         raise UnauthorizedError()
     token = authorization.split(" ")[1]
     return await service.predict_salary(resume_id, token)
+
+@resume_router.get("/predict/skill_offer/{resume_id}", response_model=List[str])
+async def offer_skills(
+    resume_id: int,
+    authorization: str | None = Header(None),
+    service: ResumeServiceDependency = ResumeServiceDependency
+):
+    if not authorization:
+        raise UnauthorizedError()
+    token = authorization.split(" ")[1]
+    return await service.offer_skill(resume_id, token)
