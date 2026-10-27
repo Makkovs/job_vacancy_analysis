@@ -1,0 +1,73 @@
+.job {
+  width: 45%;
+  padding: 20px;
+  color: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #1D2739;
+  background-color: #0F172A;
+}
+
+.job_country {
+  color: #94A3B8;
+}
+
+.job_main_info {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0px 15px 0px;
+  width: 100%;
+}
+
+.main_info {
+  padding: 15px 15px;
+  line-height: 1.5;
+  background: #070D1F;
+  border-radius: 10px;
+  border: 1px solid #1D2739;
+
+}
+
+.info_title {
+  color: #94A3B8;
+  font-size: 14px;
+}
+
+.info_salary,
+.info_other {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.7px;
+}
+
+.info_salary {
+  color: #34D399;
+  letter-spacing: 1px;
+}
+
+.info_icon {
+  fill: #34D399;
+}
+
+.job_skills {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.job_skill {
+  padding: 5px 15px;
+  margin-right: 15px;
+  background-color: #1E293B;
+  border: 1px solid #2B374B;
+  border-radius: 10px;
+}
+
+.job_skill:hover {
+  border: 1px solid #414796;
+}
+
+.info_icon {
+  position: relative;
+  top: 5px;
+  margin-right: 5px;
+} 
