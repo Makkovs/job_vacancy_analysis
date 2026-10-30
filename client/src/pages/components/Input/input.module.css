@@ -1,0 +1,29 @@
+.container {
+  display: inline-block;
+  position: relative;
+}
+
+.search_input {
+  color: #ffffff;
+  background-color: #020617;
+  font-size: 16px;
+  padding: 10px 40px 10px 20px;
+  border-radius: 10px;
+  border: 1px solid #1D2739;
+}
+
+.search_input:focus {
+  outline: 2px solid #4F46E5;
+}
+
+.search_input::-webkit-input-placeholder {
+  color: #64748B;
+}
+
+.search_icon_input {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  pointer-events: none;
+  color: #64748B;
+}
