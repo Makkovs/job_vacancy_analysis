@@ -13,7 +13,7 @@ async def domain_exception_handler (request: Request, exc: DomainException):
         content={"detail" : exc.message}
     )
 
-app.include_router(user_router)
-app.include_router(skill_router)
-app.include_router(resume_router)
-app.include_router(job_router)
+app.include_router(user_router, prefix="/api")
+app.include_router(skill_router, prefix="/api")
+app.include_router(resume_router, prefix="/api")
+app.include_router(job_router, prefix="/api")

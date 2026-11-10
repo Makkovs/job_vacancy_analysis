@@ -1,63 +1,46 @@
+import type { JobType, SkillType } from "../../../types/jobs";
 import styles from "./jobs_list.module.css";
 
-const JobsList = () => {
+interface JobList {
+  jobs: JobType[];
+  selectedJobId: number;
+}
+
+const JobsList = ({ jobs, selectedJobId }: JobList) => {
 
   return (
     <div className={styles.jobs_list}>
-      <div className={styles.job}>
-        <div className={styles.job_row_salary}>
-          <span className={styles.salary}>$2,200 - $3,200</span>
+      {jobs.map((job: JobType) =>
+        <div
+          className={
+            selectedJobId == job.id ? `${styles.job} selected_job` : styles.job
+          }
+          key={job.id}
+        >
+          <div className={styles.job_row_salary}>
+            <span className={styles.salary}>${job.salary_min} - ${job.salary_max}</span>
+          </div>
+          <div className={styles.job_row}>
+            <h3>{job.title}</h3>
+          </div>
+          <span className={styles.job_country}>{job.country}</span><br />
+          <div className={styles.job_row}>
+            <span>
+              <span className={styles.info_title}>Experience:</span> {job.experience}+ years
+            </span>
+            <span>
+              <span className={styles.info_title}>Education:</span> None
+            </span>
+          </div>
+          <div className={styles.skills_list}>
+            {job.skills?.slice(0, 4).map((skill: SkillType) =>
+              <span className={styles.skill} key={`s${skill.id}`}>
+                {skill.name}
+              </span>
+            )}
+          </div>
         </div>
-        <div className={styles.job_row}>
-          <h3>Middle UI\UX Developer</h3>
-        </div>
-        <span className={styles.job_country}>Ukraine</span><br />
-        <div className={styles.job_row}>
-          <span><span className={styles.info_title}>Experience:</span> 3+ years</span>
-          <span><span className={styles.info_title}>Education:</span> None</span>
-        </div>
-        <div className={styles.skills_list}>
-          <span className={styles.skill}>TypeScript</span>
-          <span className={styles.skill}>React.js</span>
-          <span className={styles.skill}>HTML</span>
-        </div>
-      </div>
-      <div className={styles.job}>
-        <div className={styles.job_row_salary}>
-          <span className={styles.salary}>$2,200 - $3,200</span>
-        </div>
-        <div className={styles.job_row}>
-          <h3>Middle UI\UX Developer</h3>
-        </div>
-        <span className={styles.job_country}>Ukraine</span><br />
-        <div className={styles.job_row}>
-          <span><span className={styles.info_title}>Experience:</span> 3+ years</span>
-          <span><span className={styles.info_title}>Education:</span> None</span>
-        </div>
-        <div className={styles.skills_list}>
-          <span className={styles.skill}>TypeScript</span>
-          <span className={styles.skill}>React.js</span>
-          <span className={styles.skill}>HTML</span>
-        </div>
-      </div>
-      <div className={styles.job}>
-        <div className={styles.job_row_salary}>
-          <span className={styles.salary}>$2,200 - $3,200</span>
-        </div>
-        <div className={styles.job_row}>
-          <h3>Middle UI\UX Developer</h3>
-        </div>
-        <span className={styles.job_country}>Ukraine</span><br />
-        <div className={styles.job_row}>
-          <span><span className={styles.info_title}>Experience:</span> 3+ years</span>
-          <span><span className={styles.info_title}>Education:</span> None</span>
-        </div>
-        <div className={styles.skills_list}>
-          <span className={styles.skill}>TypeScript</span>
-          <span className={styles.skill}>React.js</span>
-          <span className={styles.skill}>HTML</span>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
