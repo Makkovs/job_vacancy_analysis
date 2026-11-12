@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
+import { fetchJobs } from "../../http/jobs";
+import type { JobType } from "../../types/jobs";
+
 import Job from "./Job/Job";
 import Filters from "./Filters/Filters";
 import JobsList from "./JobsList/JobsList";
 import Loading from "../components/Loading/Loading";
-
-import { fetchJobs } from "../../http/jobs";
-import type { JobType } from "../../types/jobs";
 
 import styles from "./jobs.module.css";
 
@@ -28,12 +28,13 @@ const Jobs = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Job />
+      <Job job={selectedJob}/>
       <Filters />
       {loading && <Loading />}
       <JobsList
         jobs={jobs}
         selectedJobId={selectedJob?.id || -1}
+        setSelectedJob={setSelectedJob}
       />
     </div>
   );

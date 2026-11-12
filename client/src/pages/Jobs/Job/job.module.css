@@ -58,7 +58,7 @@
 .job_skill {
   cursor: pointer;
   padding: 5px 15px;
-  margin-right: 15px;
+  margin: 10px 15px 0px 0px;
   background-color: #1E293B;
   border: 1px solid #2B374B;
   border-radius: 10px;

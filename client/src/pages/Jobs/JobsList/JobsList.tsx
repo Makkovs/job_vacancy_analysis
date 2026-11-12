@@ -1,21 +1,23 @@
 import type { JobType, SkillType } from "../../../types/jobs";
 import styles from "./jobs_list.module.css";
 
-interface JobList {
+interface JobListProps {
   jobs: JobType[];
   selectedJobId: number;
+  setSelectedJob: (job: JobType) => void;
 }
 
-const JobsList = ({ jobs, selectedJobId }: JobList) => {
+const JobsList = ({ jobs, selectedJobId, setSelectedJob }: JobListProps) => {
 
   return (
     <div className={styles.jobs_list}>
       {jobs.map((job: JobType) =>
         <div
           className={
-            selectedJobId == job.id ? `${styles.job} selected_job` : styles.job
+            selectedJobId == job.id ? `${styles.job} ${styles.selected_job}` : styles.job
           }
           key={job.id}
+          onClick={() => setSelectedJob(job)}
         >
           <div className={styles.job_row_salary}>
             <span className={styles.salary}>${job.salary_min} - ${job.salary_max}</span>
@@ -34,7 +36,7 @@ const JobsList = ({ jobs, selectedJobId }: JobList) => {
           </div>
           <div className={styles.skills_list}>
             {job.skills?.slice(0, 4).map((skill: SkillType) =>
-              <span className={styles.skill} key={`s${skill.id}`}>
+              <span className={styles.skill} key={`${job.id}${skill.id}`}>
                 {skill.name}
               </span>
             )}

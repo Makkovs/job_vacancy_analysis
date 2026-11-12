@@ -1,11 +1,36 @@
+import { useEffect, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 
-import SearchSelect from '../../components/SearchSelect/SearchSelect';
+import { fetchSkills } from '../../../http/skills';
+import type { SkillType } from '../../../types/jobs';
+
 import Input from '../../components/Input/Input';
+import Loading from '../../components/Loading/Loading';
+import SearchSelect from '../../components/SearchSelect/SearchSelect';
 
 import styles from "./filters.module.css";
 
 const Filters = () => {
+
+  const [skills, setSkills] = useState<SkillType[]>([]);
+  const [selectedSkills, setSelectedSkills] = useState<SkillType[]>([]);
+
+  const addSelectedSkills = (skill: SkillType) => {
+    setSelectedSkills([...selectedSkills, skill])
+  }
+
+  const deleteSelectedSkill = (skill: SkillType) => {
+    const index = selectedSkills.indexOf(skill);
+    if (index != -1){
+      setSelectedSkills(selectedSkills.toSpliced(index, 1))
+    }
+  }
+
+  useEffect(() => {
+    fetchSkills().then(data => {
+      setSkills(data);
+    });
+  }, [])
 
   return (
     <div className={styles.filters}>
@@ -47,13 +72,30 @@ const Filters = () => {
       </div>
       <div className={styles.filter_options}>
         <Input isSearch={true} placeholder='Search...' />
-        <SearchSelect />
-        <SearchSelect />
+        {skills.length > 0 ?
+          <>
+            <SearchSelect
+              skills={skills.filter((skill) => !selectedSkills.includes(skill))}
+              addSelectedSkills={addSelectedSkills}
+            />
+            <SearchSelect
+              skills={skills.filter((skill) => !selectedSkills.includes(skill))}
+              addSelectedSkills={addSelectedSkills}
+            />
+          </>  
+          : <Loading />
+      }
       </div>
       <div className={styles.selected_skills}>
-        <span className={styles.selected_skill}>TypeScript</span>
-        <span className={styles.selected_skill}>React.js</span>
-        <span className={styles.selected_skill}>HTML</span>
+        {selectedSkills.map((skill: SkillType) =>
+          <span
+            className={styles.selected_skill}
+            key={`sel${skill.id}`}
+            onClick={() => deleteSelectedSkill(skill)}
+          >
+            {skill.name}
+          </span>
+        )}
       </div>
       <div className={styles.filters_footer}>
         <div className={styles.search_button}>

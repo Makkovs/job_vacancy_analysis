@@ -7,6 +7,7 @@
 }
 
 .job {
+  cursor: pointer;
   color: #ffffff;
   padding: 10px 20px 20px 20px;
   width: 280px;
@@ -15,6 +16,10 @@
 
   background-color: #0F172A;
   margin-bottom: 20px;
+}
+
+.selected_job {
+  border-color: #414796;
 }
 
 .job_row {

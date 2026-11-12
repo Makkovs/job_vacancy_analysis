@@ -1,28 +1,26 @@
 import { useState } from "react";
 import { ClickAwayListener } from "@mui/material";
 
+import type { SkillType } from "../../../types/jobs";
+
 import styles from "./search-select.module.css";
 
-const SearchSelect = () => {
-  const skills: string[] = ["Python", "JavaScript", "React", "FastAPI"]
+interface SearchSelectProps {
+  skills: SkillType[];
+  addSelectedSkills: (skill: SkillType) => void;
+}
 
+const SearchSelect = ({ skills, addSelectedSkills }: SearchSelectProps) => {
   const [selectHidden, setSelectHidden] = useState<boolean>(true);
-  const [skillsToDisplay, setSkillsToDisplay] = useState<string[]>([...skills]);
   const [value, setValue] = useState<string>("");
 
   const closeSelect = () => {
     setSelectHidden(true);
   }
 
-  const filterSkills = (query: string) => {
-    setValue(query)
-
-    const filtered = skills.filter(
-      skill => skill.toLocaleLowerCase()
-        .includes(query.toLocaleLowerCase())
-    )
-    setSkillsToDisplay(filtered)
-  }
+  const skillsToDisplay = skills.filter(skill =>
+    skill.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
+  );
 
   return (
     <ClickAwayListener onClickAway={closeSelect}>
@@ -31,15 +29,19 @@ const SearchSelect = () => {
           type="text"
           placeholder="Select skills"
           value={value}
-          onChange={(e) => filterSkills(e.target.value)}
+          onChange={(e) => setValue(e.target.value)}
           onClick={() => setSelectHidden(false)}
         />
         <ul
           className={selectHidden ? styles.hidden : styles.select_list}
         >
-          {skillsToDisplay.map((skill: string) =>
-            <li className={styles.select_item} key={skill}>
-              {skill}
+          {skillsToDisplay.map((skill: SkillType) =>
+            <li
+              className={styles.select_item}
+              key={skill.id}
+              onClick={() => addSelectedSkills(skill)}
+            >
+              {skill.name}
             </li>
           )}
         </ul>

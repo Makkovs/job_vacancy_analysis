@@ -11,5 +11,5 @@ export interface JobType {
   country: string;
   qualification: number,
   experience: number,
-  skills?: SkillType[]
+  skills: SkillType[]
 }
